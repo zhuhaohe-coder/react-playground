@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .activated {
+    @apply text-blue-400 border-b-4 border-blue-400;
+  }
+  .item-tab {
+    @apply items-center inline-flex text-sm pt-3 pl-2 pr-3 pb-2 flex-nowrap text-nowrap;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 0px;
+}
+
+.calc-height {
+  margin: 0;
+  padding: 0;
+  height: calc(100% - 46px);
+}
