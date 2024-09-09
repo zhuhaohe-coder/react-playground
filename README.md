@@ -92,3 +92,6 @@ export function createATA(
   };
 ```
 
+# 编译
+
+> 通过babel插件来处理import语句，转换成blob url的形式
