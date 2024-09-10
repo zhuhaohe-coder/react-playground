@@ -59,14 +59,17 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
   };
 
   const updateFileName = (oldName: string, newName: string) => {
-    if (!files[oldName] || !files[newName] || oldName === newName) return;
+    if (!files[oldName] || newName === "" || oldName === newName) return;
+    // 解构出需要更新的文件，更新其名字和语言
     const { [oldName]: file, ...rest } = files;
     const newFile = {
-      code: file.code,
-      name: newName,
-      language: fileName2Language(newName),
+      [newName]: {
+        ...file,
+        name: newName,
+        language: fileName2Language(newName),
+      },
     };
-    setFiles({ ...rest, [newName]: newFile });
+    setFiles({ ...rest, ...newFile });
   };
   return (
     <PlaygroundContext.Provider
