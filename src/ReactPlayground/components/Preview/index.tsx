@@ -11,7 +11,6 @@ function Preview() {
   const [compiledCode, setCompiledCode] = useState("");
 
   const getIframeUrl = () => {
-    console.log('@@@@', compiledCode)
     const res = iframeRaw
       .replace(
         '<script type="importmap"></script>',

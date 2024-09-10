@@ -37,3 +37,5 @@ export const initFiles: Files = {
     language: fileName2Language(IMPORT_MAP_FILE_NAME),
   },
 };
+
+export const INIT_FILES_COUNT = Object.keys(initFiles).length;

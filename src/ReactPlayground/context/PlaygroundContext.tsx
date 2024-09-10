@@ -1,6 +1,5 @@
 import { EditorFile } from "@/types";
 import { createContext, PropsWithChildren, useState } from "react";
-import { message } from "antd";
 import { fileName2Language } from "../utils";
 import { initFiles } from "../initFiles";
 
@@ -29,11 +28,8 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
 
   const [selectedFileName, setSelectedFileName] = useState<string>("App.tsx");
 
-  const [messageApi] = message.useMessage();
-
   const addFile = (fileName: string) => {
     if (files[fileName]) {
-      messageApi.error(`File ${fileName} already exists`);
       return;
     }
 
@@ -50,16 +46,22 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
   };
 
   const removeFile = (fileName: string) => {
+    if (!files[fileName]) return;
     setFiles((files) => {
       const newFiles = { ...files };
       delete newFiles[fileName];
       return newFiles;
     });
-    messageApi.success(`File ${fileName} removed`);
   };
 
   const updateFileName = (oldName: string, newName: string) => {
-    if (!files[oldName] || newName === "" || oldName === newName) return;
+    if (
+      !files[oldName] ||
+      newName === "" ||
+      oldName === newName ||
+      files[newName]
+    )
+      return;
     // 解构出需要更新的文件，更新其名字和语言
     const { [oldName]: file, ...rest } = files;
     const newFile = {
