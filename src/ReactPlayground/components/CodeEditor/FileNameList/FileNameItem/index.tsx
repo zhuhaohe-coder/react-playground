@@ -38,7 +38,7 @@ export const FileNameItem: React.FC<FileNameItemProps> = (
   useEffect(() => {
     if (inputRef.current) {
       // ch: 1ch 等于当前字体中数字 "0" 的宽度
-      inputRef.current.style.width = fileName.length + "ch";
+      inputRef.current.style.width = fileName.length + 0.5 + "ch";
     }
   }, [inputRef, fileName, editing]);
 

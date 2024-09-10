@@ -3,8 +3,14 @@ import { useContext, useEffect, useState } from "react";
 import { compile } from "./compiler";
 import iframeRaw from "./iframe.html?raw";
 import { IMPORT_MAP_FILE_NAME } from "@/ReactPlayground/initFiles";
+import { Message } from "./Message";
 
-
+interface MessageData {
+  data: {
+    type: string;
+    message: string;
+  };
+}
 
 function Preview() {
   const { files } = useContext(PlaygroundContext);
@@ -29,10 +35,24 @@ function Preview() {
     setCompiledCode(res);
   }, [files]);
 
-
   useEffect(() => {
     setIframeUrl(getIframeUrl());
   }, [files[IMPORT_MAP_FILE_NAME].code, compiledCode]);
+
+  const [error, setError] = useState("");
+  const handleMessage = (msg: MessageData) => {
+    const { type, message } = msg.data;
+    if (type === "ERROR") {
+      setError(message);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   return (
     <div className="h-full">
@@ -44,6 +64,10 @@ function Preview() {
           padding: 0,
           border: "none",
         }}
+      />
+      <Message
+        type="error"
+        content={error}
       />
     </div>
   );

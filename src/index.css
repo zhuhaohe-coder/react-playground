@@ -20,3 +20,83 @@
   padding: 0;
   height: calc(100% - 46px);
 }
+
+.msg {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  left: 8px;
+  z-index: 10;
+
+  display: flex;
+  max-height: calc(100% - 300px);
+  min-height: 40px;
+  margin-bottom: 8px;
+  color: var(--color);
+
+  background-color: var(--bg-color);
+  border: 2px solid #fff;
+  border-radius: 6px;
+
+  border-color: var(--color);
+}
+
+.error {
+  --color: #f56c6c;
+  --bg-color: #fef0f0;
+}
+
+.warn {
+  --color: #e6a23c;
+  --bg-color: #fdf6ec;
+}
+
+pre {
+  padding: 12px 20px;
+  margin: 0;
+  overflow: auto;
+  white-space: break-spaces;
+}
+
+.dismiss {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+
+  display: block;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+
+  font-size: 9px;
+  line-height: 18px;
+  color: var(--bg-color);
+
+  text-align: center;
+  cursor: pointer;
+  background-color: var(--color);
+  border: none;
+  border-radius: 9px;
+}
+
+/* 修改滚动条的宽度或高度（水平滚动条） */
+::-webkit-scrollbar {
+  width: 5px; /* 垂直滚动条宽度 */
+  height: 5px; /* 水平滚动条高度 */
+}
+
+/* 滚动条的轨道 */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* 滚动条的滑块 */
+::-webkit-scrollbar-thumb {
+  background: #d6d3d3;
+  border-radius: 6px; /* 圆角 */
+}
+
+/* 鼠标悬停时滚动条的滑块颜色变化 */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
