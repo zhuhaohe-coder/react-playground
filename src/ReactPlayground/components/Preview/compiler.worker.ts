@@ -84,17 +84,19 @@ const customResolver = (files: Files): PluginObj => {
   };
 };
 
-export const babelTransformCode = (filename:string, code:string) => {
+export const babelTransformCode = (filename: string, code: string) => {
   let _code = code;
   const regexReact = /import React from "react";/g;
 
-  if((filename.endsWith('.tsx') || filename.endsWith('.jsx')) && !regexReact.test(code)) {
+  if (
+    (filename.endsWith(".tsx") || filename.endsWith(".jsx")) &&
+    !regexReact.test(code)
+  ) {
     _code = `import React from 'react';\n${code}`;
   }
 
   return _code;
-}
-
+};
 
 export const babelTransform = (
   filename: string,
@@ -120,3 +122,17 @@ export const compile = (files: Files) => {
   const target = files[ENTRY_FILE_NAME];
   return babelTransform(ENTRY_FILE_NAME, target.code, files);
 };
+
+self.addEventListener("message", ({ data }) => {
+  try {
+    self.postMessage({
+      type: "COMPILER_CODE",
+      data: compile(data),
+    });
+  } catch (error) {
+    self.postMessage({
+      type: "ERROR",
+      error,
+    });
+  }
+});

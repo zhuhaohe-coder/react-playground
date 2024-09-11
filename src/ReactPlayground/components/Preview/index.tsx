@@ -1,9 +1,9 @@
 import { PlaygroundContext } from "@/ReactPlayground/context/PlaygroundContext";
-import { useContext, useEffect, useState } from "react";
-import { compile } from "./compiler";
+import { useContext, useEffect, useRef, useState } from "react";
 import iframeRaw from "./iframe.html?raw";
 import { IMPORT_MAP_FILE_NAME } from "@/ReactPlayground/initFiles";
 import { Message } from "./Message";
+import CompilerWorker from "./compiler.worker?worker";
 
 interface MessageData {
   data: {
@@ -30,9 +30,23 @@ function Preview() {
   };
   const [iframeUrl, setIframeUrl] = useState(getIframeUrl());
 
+  const compilerWorkerRef = useRef<Worker>();
+
   useEffect(() => {
-    const res = compile(files);
-    setCompiledCode(res);
+    if (!compilerWorkerRef.current) {
+      compilerWorkerRef.current = new CompilerWorker();
+      // 主线程接收到 worker 编译后的代码
+      compilerWorkerRef.current.addEventListener("message", ({ data }) => {
+        if (data.type === "COMPILER_CODE") {
+          setCompiledCode(data.data);
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    // 主线程发送给 worker 需要编译的代码
+    compilerWorkerRef.current?.postMessage(files);
   }, [files]);
 
   useEffect(() => {
