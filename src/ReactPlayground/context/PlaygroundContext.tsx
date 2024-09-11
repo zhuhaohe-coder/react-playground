@@ -1,6 +1,6 @@
 import { EditorFile } from "@/types";
-import { createContext, PropsWithChildren, useState } from "react";
-import { fileName2Language } from "../utils";
+import { createContext, PropsWithChildren, useEffect, useState } from "react";
+import { compress, fileName2Language, uncompress } from "../utils";
 import { initFiles } from "../initFiles";
 
 export interface Files {
@@ -25,14 +25,31 @@ export const PlaygroundContext = createContext<PlaygroundContext>(
 
 export type Theme = "light" | "dark";
 
+const getFilesFromUrl = () => {
+  let files: Files | undefined;
+  try {
+    // 去掉#号并解码
+    const hash = uncompress(window.location.hash.slice(1));
+    files = JSON.parse(hash);
+  } catch (error) {
+    console.log(error);
+  }
+  return files;
+};
+
 export const PlaygroundProvider = (props: PropsWithChildren) => {
   const { children } = props;
 
-  const [files, setFiles] = useState<Files>(initFiles);
+  const [files, setFiles] = useState<Files>(getFilesFromUrl() || initFiles);
 
   const [selectedFileName, setSelectedFileName] = useState<string>("App.tsx");
 
   const [theme, setTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    const hash = compress(JSON.stringify(files));
+    window.location.hash = hash;
+  }, [files]);
 
   const addFile = (fileName: string) => {
     if (files[fileName]) {

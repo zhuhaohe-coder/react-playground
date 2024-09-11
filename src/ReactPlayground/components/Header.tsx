@@ -1,10 +1,18 @@
 import { useContext } from "react";
 import logo from "../../assets/react_logo.svg";
 import { PlaygroundContext } from "../context/PlaygroundContext";
-import { MoonOutlined, SunOutlined } from "@ant-design/icons";
+import {
+  MoonOutlined,
+  SunOutlined,
+  ShareAltOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons";
+import copy from "copy-to-clipboard";
+import { message } from "antd";
+import { downloadFiles } from "../utils";
 
 function Header() {
-  const { theme, setTheme } = useContext(PlaygroundContext);
+  const { theme, setTheme, files } = useContext(PlaygroundContext);
 
   return (
     <div className="h-14 px-5  flex items-center shadow-md justify-between dark:bg-black dark:border-b-gray-700 dark:border-b-2">
@@ -19,6 +27,20 @@ function Header() {
         </span>
       </div>
       <div className="cursor-pointer">
+        <ShareAltOutlined
+          className="text-2xl mr-5 dark:text-white"
+          onClick={() => {
+            copy(window.location.href);
+            message.success("分享链接已复制到剪切板");
+          }}
+        />
+        <DownloadOutlined
+          className="text-2xl mr-5 dark:text-white"
+          onClick={async () => {
+            await downloadFiles(files);
+            message.success("下载成功");
+          }}
+        />
         {theme === "light" && (
           <MoonOutlined
             className="text-2xl dark:text-white"
