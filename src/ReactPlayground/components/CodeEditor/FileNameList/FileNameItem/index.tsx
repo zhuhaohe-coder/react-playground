@@ -89,7 +89,7 @@ export const FileNameItem: React.FC<FileNameItemProps> = (
         className={
           activated
             ? "item-tab activated cursor-text"
-            : "item-tab cursor-pointer"
+            : "item-tab cursor-pointer dark:text-white"
         }
         ref={itemRef}
         onClick={onClick}>

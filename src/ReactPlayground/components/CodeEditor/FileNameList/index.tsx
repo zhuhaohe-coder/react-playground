@@ -65,7 +65,7 @@ function FileNameList() {
   return (
     <div
       ref={tabRef}
-      className="overflow-x-scroll border-b-2 border-gray-300 flex custom-scrollbar">
+      className="overflow-x-scroll border-b-2 border-gray-300 flex custom-scrollbar dark:bg-black dark:border-gray-700">
       {tabs.map((tab, index, arr) => (
         <FileNameItem
           readonly={readonlyFileNames.includes(tab)}
@@ -82,7 +82,7 @@ function FileNameList() {
       ))}
       <div className="w-[44px] h-[44px] text-center shrink-0">
         <span
-          className="text-[20px] leading-[44px] font-bold cursor-pointer hover:text-blue-500"
+          className="text-[20px] leading-[44px] font-bold cursor-pointer hover:text-blue-500 dark:text-white"
           onClick={addTab}>
           +
         </span>

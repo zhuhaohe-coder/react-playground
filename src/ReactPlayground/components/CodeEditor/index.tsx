@@ -5,7 +5,7 @@ import { PlaygroundContext } from "@/ReactPlayground/context/PlaygroundContext";
 import { debounce } from "lodash-es";
 
 function CodeEditor() {
-  const { files, selectedFileName, setFiles } = useContext(PlaygroundContext);
+  const { files, selectedFileName, setFiles, theme } = useContext(PlaygroundContext);
 
   const file = files[selectedFileName];
 
@@ -22,6 +22,7 @@ function CodeEditor() {
         <Editor
           file={file}
           onChange={debounce(onEditorChange, 500)}
+          options={{ theme: `vs-${theme}` }}
         />
       </div>
     </div>
